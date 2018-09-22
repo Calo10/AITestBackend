@@ -44,9 +44,14 @@ namespace AITestBackend.Models
         #region Patients
         public static string SP_GetAllPatients = "sp_get_all_patient";
         public static string SP_InsertPatients = "sp_insert_patient";
+<<<<<<< HEAD
 
         public static string SP_InsertPatientsTreatmentDeseases = "sp_insertupdatetreatment";
         public static string SP_GetAllTreatmentDeseases = "sp_get_all_treatment_deseases";
+=======
+        public static string SP_GetPatient = "sp_get_patient";
+        public static string SP_InsertPatientsTreatmentDeseases = "sp_insert_patienttreatmentdeseases";
+>>>>>>> 0020175d80f729986d816ce01f4b9b4d86e0bd35
         #endregion
 
         #endregion
@@ -71,7 +76,7 @@ namespace AITestBackend.Models
 
         public const string MSG_GetAllPatients_Success = "Consulta de todos los pacientes";
         public const string MSG_SavePatients_Success = "Guardar paciente";
-
+        public static string MSG_GetPatient_Success = "Consulta de paciente";
         #endregion
 
 
