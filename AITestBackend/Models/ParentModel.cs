@@ -48,6 +48,7 @@ namespace AITestBackend.Models
             using (MySqlConnection conn = ConecctionModel.conn)
             {
                 conn.Open();
+                int idresult = 0;
 
                 string SP = AppManagement.SP_SaveParent;
                 MySqlCommand cmd = new MySqlCommand(SP, conn);
@@ -60,14 +61,32 @@ namespace AITestBackend.Models
                 cmd.Parameters.AddWithValue("@parent", 1);
                 cmd.Parameters.AddWithValue("@email", parentModel.Email);
 
+                MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
+                NroIdInvoice.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(NroIdInvoice);
+
+                cmd.ExecuteNonQuery();
+
+
+                idresult = Int32.Parse(cmd.Parameters["@result"].Value.ToString());
+
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
                 rdr.Close();
 
-                if (rdr.RecordsAffected != 0)
-                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveParent_Success };
+                if (idresult != 0)
+                {
+                    if (idresult == 1)//email duplicado
+                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureEmail };
+                    if (idresult == 2)//identificacion duplicada
+                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureIdentification };
 
-                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_Failure };
+                    else
+                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureDefault };
+                }
+
+                else
+                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveParent_Success };
             }
         }
 
@@ -90,7 +109,7 @@ namespace AITestBackend.Models
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@identification", parent.Identification);
-                    cmd.Parameters.AddWithValue("@password", parent.password);
+                    cmd.Parameters.AddWithValue("@password", parent.Password);
 
 
                     MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
