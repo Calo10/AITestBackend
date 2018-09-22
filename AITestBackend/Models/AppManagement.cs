@@ -36,6 +36,11 @@ namespace AITestBackend.Models
         public const string SP_UpdateParent = "sp_updateparent";
         #endregion
 
+        #region Ethnic Group
+        public const string SP_GetAllEthnicGroup = "sp_get_all_ethnic_group";
+
+        #endregion
+
         #endregion
 
 
@@ -45,6 +50,9 @@ namespace AITestBackend.Models
         public const string MSG_SaveProduct_Failure = "Error en la creacion del Producto";
         public const string MSG_GetAllProducts_Success = "Carga Exitosa de Productos";
         public const string MSG_GetProduct_Success = "Carga Exitosa del Producto";
+
+
+        public const string MSG_GetAllEthnicGroup_Success = "Carga de grupos etnicos";
 
         #endregion
 
