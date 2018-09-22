@@ -55,6 +55,50 @@ namespace AITestBackend.Controllers
             return JsonConvert.SerializeObject(ans);
         }
 
+        /// <summary>
+        /// Save a PriceList for a Customer
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST Access/RegisterParent
+        ///     {   
+        ///           "Identification": 304360398,
+        ///           "Name": 'Lista de Descuento',
+        ///           "Password": '123',
+        ///           "Mobile": '89115991',
+        ///           "Email": 'stevenariasfigueroa@gmail.com'
+        ///     }
+        /// </remarks>
+        /// <param name="pPriceList"></param>
+        /// <returns></returns>
+        [HttpPost("[controller]/RegisterParent")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public string RegisterParent(string Parent)
+        {
+            Response ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ParentModel parentModel = JsonConvert.DeserializeObject<ParentModel>(Parent);
+                    ans = ParentModel.RegisterParent(parentModel);
+                }
+                else
+                {
+                    return AppManagement.MSG_API_Validation_Failure;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error(ex.Message);
+            }
+
+            return JsonConvert.SerializeObject(ans);
+        }
+
         #endregion
 
         #region login

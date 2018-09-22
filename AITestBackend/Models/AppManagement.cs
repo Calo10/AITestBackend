@@ -32,7 +32,7 @@ namespace AITestBackend.Models
 
         #region parent
         public const string SP_GetParent = "sp_getparent";
-        public const string SP_SaveParent = "sp_saveparent";
+        public const string SP_SaveParent = "sp_insert_user";
         public const string SP_UpdateParent = "sp_updateparent";
         #endregion
 
@@ -49,12 +49,19 @@ namespace AITestBackend.Models
         #endregion
 
 
-        #region Product
+        #region Messages
 
+        #region Parent
+
+        public const string MSG_SaveParent_Success = "Encargado Creado Exitosamente!";
+        public const string MSG_SaveParent_FailureDefault = "Error en la creación del Encargado";
+        public const string MSG_SaveParent_FailureEmail = "Correo duplicado, no se puede registrar el Encargado";
+        public const string MSG_SaveParent_FailureIdentification = "Identificación duplicada, no se puede registrar el Encargado";
         public const string MSG_GetParent_Success = "Encargado Creado Exitosamente!";
         public const string MSG_SaveProduct_Failure = "Error en la creacion del Producto";
         public const string MSG_GetAllProducts_Success = "Carga Exitosa de Productos";
         public const string MSG_GetProduct_Success = "Carga Exitosa del Producto";
+      
 
 
         public const string MSG_GetAllEthnicGroup_Success = "Carga de grupos etnicos";
@@ -71,6 +78,8 @@ namespace AITestBackend.Models
         public const string MSG_Login_FailureDefault = "Error en el Logueo, favor intente mas tarde";
         public const string MSG_Login_Failure1 = "Usuario no existe ó es incorecto";
         public const string MSG_Login_Failure2 = "Contraseña incorrecta";
+
+        #endregion
 
         #endregion
     }
