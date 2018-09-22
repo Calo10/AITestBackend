@@ -7,4 +7,11 @@ namespace AITestBackend.Models
         public string ResponseMessage { get; set; }
 
     }
+
+
+    public class ResponseParent : Response
+    {
+        public ParentModel Parent { get; set; }
+    }
+
 }

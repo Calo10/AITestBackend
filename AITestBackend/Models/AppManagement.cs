@@ -22,5 +22,30 @@ namespace AITestBackend.Models
         public const string MSG_SendMessageToAssistantResponse_Succesful = "";
 
         public const string MSG_GenericExceptionError = "Se ha producido un error en el Servidor";
+
+
+        #region sps
+
+        #region login
+        public const string SP_LoginUser = "sp_loginuser";
+        #endregion
+
+        #region parent
+        public const string SP_GetParent = "sp_getparent";
+        public const string SP_SaveParent = "sp_saveparent";
+        public const string SP_UpdateParent = "sp_updateparent";
+        #endregion
+
+        #endregion
+
+
+        #region Product
+
+        public const string MSG_GetParent_Success = "Encargado Creado Exitosamente!";
+        public const string MSG_SaveProduct_Failure = "Error en la creacion del Producto";
+        public const string MSG_GetAllProducts_Success = "Carga Exitosa de Productos";
+        public const string MSG_GetProduct_Success = "Carga Exitosa del Producto";
+
+        #endregion
     }
 }
