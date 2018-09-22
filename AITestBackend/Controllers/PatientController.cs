@@ -34,5 +34,31 @@ namespace AITestBackend.Controllers
 
             return JsonConvert.SerializeObject(ans);
         }
+
+        [HttpPost()]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public string SavePatient([FromBody]PatientModel patientModel)
+        {
+            ResponsePatients ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ans = PatientModel.SavePatient(patientModel);
+                }
+                else
+                {
+                    return AppManagement.MSG_API_Validation_Failure;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error(ex.Message);
+            }
+
+            return JsonConvert.SerializeObject(ans);
+        }
     }
 }

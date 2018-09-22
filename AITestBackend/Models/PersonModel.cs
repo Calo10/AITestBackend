@@ -7,10 +7,9 @@ namespace AITestBackend.Models
 {
     public class PersonModel
     {
-        public string identification { get; set; }
-        public string name { get; set; }
-        public string lastname1 { get; set; }
-        public string lastname2 { get; set; }
+        public string Identification { get; set; }
+
+        public string Name { get; set; }
        
     }
 }
