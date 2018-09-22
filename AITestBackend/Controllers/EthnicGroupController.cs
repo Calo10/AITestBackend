@@ -9,18 +9,18 @@ namespace AITestBackend.Controllers
     [Route("api/ethnicgroup")]
     public class EthnicGroupController : BaseController
     {
-        [HttpGet("[controller]/list")]
+        [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         public string Get()
         {
-            ResponseParent ans = null;
+            ResponseEthnicGroup ans = null;
 
             try
             {
                 if (ValidateSecurityAPI())
                 {
-                    
+                    ans = EthnicModel.GetAll();
                 }
                 else
                 {

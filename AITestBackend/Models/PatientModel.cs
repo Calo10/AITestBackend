@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AITestBackend.Models
 {
-    public class PatientModel
+    public class PatientModel : PersonModel
     {
     }
 }
