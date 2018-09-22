@@ -10,10 +10,11 @@ namespace AITestBackend.Models
     public class ParentModel : PersonModel
     {
 
-        public string password { get; set; }
-        public string email { get; set; }
-        public string mobile { get; set; }
-
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
+        
+        #region Parent
         public static ResponseParent GetParent(string identification)
         {
             ParentModel parentModel = new ParentModel();
@@ -44,6 +45,35 @@ namespace AITestBackend.Models
             }
         }
 
+        public static Response RegisterParent(ParentModel parentModel)
+        {
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
+
+                string SP = AppManagement.SP_SaveParent;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id_user", parentModel.Identification);
+                cmd.Parameters.AddWithValue("@name", parentModel.Name);
+                cmd.Parameters.AddWithValue("@password", parentModel.Password);
+                cmd.Parameters.AddWithValue("@phone", parentModel.Mobile);
+                cmd.Parameters.AddWithValue("@parent", 1);
+                cmd.Parameters.AddWithValue("@email", parentModel.Email);
+
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                rdr.Close();
+
+                if (rdr.RecordsAffected != 0)
+                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveParent_Success };
+
+                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_Failure };
+            }
+        }
+
+        #endregion
 
         #region Login
 
