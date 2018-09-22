@@ -41,6 +41,11 @@ namespace AITestBackend.Models
 
         #endregion
 
+        #region Patients
+        public static string SP_GetAllPatients = "sp_get_all_patient";
+        public static string SP_InsertPatients = "sp_insert_patient";
+        #endregion
+
         #endregion
 
 
@@ -54,7 +59,8 @@ namespace AITestBackend.Models
 
         public const string MSG_GetAllEthnicGroup_Success = "Carga de grupos etnicos";
 
-        public const string MSG_GetAllPatients_Success = "Carga de grupos etnicos";
+        public const string MSG_GetAllPatients_Success = "Consulta de todos los pacientes";
+        public const string MSG_SavePatients_Success = "Guardar paciente";
 
         #endregion
 

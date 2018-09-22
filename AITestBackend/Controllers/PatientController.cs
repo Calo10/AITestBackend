@@ -12,7 +12,7 @@ namespace AITestBackend.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string Get()
+        public string Get(string parentId)
         {
             ResponsePatients ans = null;
 
@@ -20,7 +20,7 @@ namespace AITestBackend.Controllers
             {
                 if (ValidateSecurityAPI())
                 {
-                    ans = PatientModel.GetAll();
+                    ans = PatientModel.GetAll(parentId);
                 }
                 else
                 {
@@ -40,13 +40,16 @@ namespace AITestBackend.Controllers
         [ProducesResponseType(200)]
         public string SavePatient([FromBody]PatientModel patientModel)
         {
-            ResponsePatients ans = null;
+            Response ans = null;
 
             try
             {
                 if (ValidateSecurityAPI())
                 {
-                    ans = PatientModel.SavePatient(patientModel);
+                    if (patientModel.IsNotNull())
+                    {
+                        ans = PatientModel.SavePatient(patientModel);
+                    }
                 }
                 else
                 {

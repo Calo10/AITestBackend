@@ -14,17 +14,23 @@ namespace AITestBackend.Models
         public string Gender { get; set; }
 
         public EthnicModel Ethnic { get; set; }
+        
+        public string IdParent { get; set; }
 
-        public static ResponsePatients GetAll()
+        public int Age { get; set; }
+
+        public static ResponsePatients GetAll(string parentId)
         {
             List<PatientModel> patients = null;
 
             using (MySqlConnection conn = ConecctionModel.conn)
             {
                 conn.Open();
-                string SP = AppManagement.SP_GetAllEthnicGroup;
+                string SP = AppManagement.SP_GetAllPatients;
                 MySqlCommand cmd = new MySqlCommand(SP, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id_parent", parentId);
 
                 using (MySqlDataReader rdr = cmd.ExecuteReader())
                 {
@@ -37,7 +43,8 @@ namespace AITestBackend.Models
                             Identification = rdr["id_patient"].ToString(),
                             Name = rdr["name"].ToString(),
                             BirthDate = Convert.ToDateTime(rdr["birth_date"]),
-                            Ethnic =  new EthnicModel()
+                            Age = Convert.ToInt32(rdr["age"]),
+                            Ethnic = new EthnicModel()
                             {
                                 Id = Convert.ToInt32(rdr["id_ethnic_group"]),
                                 Name = rdr["ethnic_name"].ToString()
@@ -50,9 +57,29 @@ namespace AITestBackend.Models
             return new ResponsePatients { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllPatients_Success, Patients = patients };
         }
 
-        public static ResponsePatients SavePatient(PatientModel patient)
+        public static Response SavePatient(PatientModel patient)
         {
-            throw new NotImplementedException();
+            int rowAffected = 0;
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
+
+                string SP = AppManagement.SP_InsertPatients;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id_patient", patient.Identification);
+                cmd.Parameters.AddWithValue("@id_parent", patient.IdParent);
+                cmd.Parameters.AddWithValue("@name", patient.Name);
+                cmd.Parameters.AddWithValue("@birth_date", patient.BirthDate);
+                cmd.Parameters.AddWithValue("@age", patient.Age);
+                cmd.Parameters.AddWithValue("@gender", patient.Gender);
+                cmd.Parameters.AddWithValue("@id_ethnic_group", patient.Ethnic.Id);
+
+                rowAffected = cmd.ExecuteNonQuery();
+            }
+
+            return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SavePatients_Success };
         }
     }
 }
