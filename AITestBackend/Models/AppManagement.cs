@@ -27,7 +27,7 @@ namespace AITestBackend.Models
         #region sps
 
         #region login
-        public const string SP_LoginUser = "sp_loginuser";
+        public const string SP_LoginUser = "sp_login";
         #endregion
 
         #region parent
@@ -45,6 +45,16 @@ namespace AITestBackend.Models
         public const string MSG_SaveProduct_Failure = "Error en la creacion del Producto";
         public const string MSG_GetAllProducts_Success = "Carga Exitosa de Productos";
         public const string MSG_GetProduct_Success = "Carga Exitosa del Producto";
+
+        #endregion
+
+
+        #region Login
+
+        public const string MSG_Login_Success = "Logueo Exitoso";
+        public const string MSG_Login_FailureDefault = "Error en el Logueo, favor intente mas tarde";
+        public const string MSG_Login_Failure1 = "Usuario no existe ó es incorecto";
+        public const string MSG_Login_Failure2 = "Contraseña incorrecta";
 
         #endregion
     }

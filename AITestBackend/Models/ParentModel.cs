@@ -11,6 +11,8 @@ namespace AITestBackend.Models
     {
 
         public string password { get; set; }
+        public string email { get; set; }
+        public string mobile { get; set; }
 
         public static ResponseParent GetParent(string identification)
         {
@@ -41,5 +43,57 @@ namespace AITestBackend.Models
                 return new ResponseParent { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetParent_Success, Parent = parentModel };
             }
         }
+
+
+        #region Login
+
+        public static Response Login(ParentModel parent)
+        {
+            try
+            {
+                using (MySqlConnection conn = ConecctionModel.conn)
+                {
+                    conn.Open();
+                    int idresult = 0;
+
+                    string SP = AppManagement.SP_LoginUser;
+
+                    MySqlCommand cmd = new MySqlCommand(SP, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@identification", parent.identification);
+                    cmd.Parameters.AddWithValue("@password", parent.password);
+
+
+                    MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
+                    NroIdInvoice.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(NroIdInvoice);
+
+                    cmd.ExecuteNonQuery();
+
+
+                    idresult = Int32.Parse(cmd.Parameters["@result"].Value.ToString());
+                    if (idresult != 0)
+                    {
+                        if (idresult == 1)//usuario no existe
+                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_Login_Failure1 };
+                        if (idresult == 2)//contraseña incorrecta
+                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_Login_Failure2 };
+                        else
+                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_Login_FailureDefault };
+                    }
+
+                    else
+                        return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_Login_Success };
+                }
+            }
+            catch (Exception)
+            {
+                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_Login_FailureDefault };
+            }
+
+        }
+
+        #endregion
     }
 }
