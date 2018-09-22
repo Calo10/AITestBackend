@@ -45,7 +45,7 @@ namespace AITestBackend.Models
         public static string SP_GetAllPatients = "sp_get_all_patient";
         public static string SP_InsertPatients = "sp_insert_patient";
 
-        public static string SP_InsertPatientsTreatmentDeseases = "sp_insert_patienttreatmentdeseases";
+        public static string SP_InsertPatientsTreatmentDeseases = "sp_insertupdatetreatment";
         #endregion
 
         #endregion
@@ -80,6 +80,15 @@ namespace AITestBackend.Models
         public const string MSG_Login_FailureDefault = "Error en el Logueo, favor intente mas tarde";
         public const string MSG_Login_Failure1 = "Usuario no existe ó es incorecto";
         public const string MSG_Login_Failure2 = "Contraseña incorrecta";
+
+        #endregion
+
+
+        #region Treatment
+
+        public const string MSG_SaveTreatment_Success = "Registro Actualizado / Creado Exitosamente!";
+        public const string MSG_SaveTreatment_Failure = "Error en la Actualización / Creación del Registro";
+
 
         #endregion
 

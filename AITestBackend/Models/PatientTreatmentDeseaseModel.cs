@@ -15,54 +15,57 @@ namespace AITestBackend.Models
 
         #region PatientTreatmentDesease
 
-        public static Response SaveTreatmentDeseases(ParentModel parentModel)
+        public static Response SaveTreatmentDeseases(PatientTreatmentDeseaseModel patienttreatmentdesease, MySqlConnection conn = null)
         {
-            using (MySqlConnection conn = ConecctionModel.conn)
+            if (conn != null)
             {
-                conn.Open();
-                int idresult = 0;
+                conn = ConecctionModel.conn;
 
                 string SP = AppManagement.SP_InsertPatientsTreatmentDeseases;
                 MySqlCommand cmd = new MySqlCommand(SP, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@id_user", parentModel.Identification);
-                cmd.Parameters.AddWithValue("@name", parentModel.Name);
-                cmd.Parameters.AddWithValue("@password", parentModel.Password);
-                cmd.Parameters.AddWithValue("@phone", parentModel.Mobile);
-                cmd.Parameters.AddWithValue("@parent", 1);
-                cmd.Parameters.AddWithValue("@email", parentModel.Email);
-
-                MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
-                NroIdInvoice.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(NroIdInvoice);
-
-                cmd.ExecuteNonQuery();
-
-
-                idresult = Int32.Parse(cmd.Parameters["@result"].Value.ToString());
+                cmd.Parameters.AddWithValue("@identification", patienttreatmentdesease.Identification);
+                cmd.Parameters.AddWithValue("@type", patienttreatmentdesease.Type);
+                cmd.Parameters.AddWithValue("@Description", patienttreatmentdesease.Description);
 
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
                 rdr.Close();
 
-                if (idresult != 0)
-                {
-                    if (idresult == 1)//email duplicado
-                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureEmail };
-                    if (idresult == 2)//identificacion duplicada
-                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureIdentification };
+                if (rdr.RecordsAffected != 0)
+                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveTreatment_Success };
 
-                    else
-                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveParent_FailureDefault };
-                }
-
-                else
-                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveParent_Success };
+                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
             }
+            else
+            {
+                using (conn = ConecctionModel.conn)
+                {
+                    conn.Open();
+
+                    string SP = AppManagement.SP_InsertPatientsTreatmentDeseases;
+                    MySqlCommand cmd = new MySqlCommand(SP, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@identification", patienttreatmentdesease.Identification);
+                    cmd.Parameters.AddWithValue("@type", patienttreatmentdesease.Type);
+                    cmd.Parameters.AddWithValue("@Description", patienttreatmentdesease.Description);
+
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    rdr.Close();
+
+                    if (rdr.RecordsAffected != 0)
+                        return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveTreatment_Success };
+
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+
+                }
+            }
+
+            
         }
-
-
 
         #endregion
     }
