@@ -59,6 +59,8 @@ namespace AITestBackend.Models
 
         public const string MSG_GetAllEthnicGroup_Success = "Carga de grupos etnicos";
 
+        public const string MSG_GetAllPatients_Success = "Carga de grupos etnicos";
+
         #endregion
 
 

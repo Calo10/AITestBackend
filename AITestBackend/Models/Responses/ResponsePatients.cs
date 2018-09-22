@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace AITestBackend.Models
 {
-    public class PersonModel
+    public class ResponsePatients : Response
     {
-        public string Identification { get; set; }
-
-        public string Name { get; set; }
-       
+        public List<PatientModel> Patients { get; set; }
     }
 }

@@ -33,10 +33,8 @@ namespace AITestBackend.Models
 
                 while (rdr.Read())
                 {
-                    parentModel.identification = rdr["idCurrency"].ToString();
-                    parentModel.name = rdr["Code"].ToString();
-                    parentModel.lastname1 = rdr["Country"].ToString();
-                    parentModel.lastname2 = rdr["Description"].ToString();
+                    parentModel.Identification = rdr["idCurrency"].ToString();
+                    parentModel.Name = rdr["Code"].ToString();
                 }
 
                 rdr.Close();
@@ -91,7 +89,7 @@ namespace AITestBackend.Models
                     MySqlCommand cmd = new MySqlCommand(SP, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@identification", parent.identification);
+                    cmd.Parameters.AddWithValue("@identification", parent.Identification);
                     cmd.Parameters.AddWithValue("@password", parent.password);
 
 
