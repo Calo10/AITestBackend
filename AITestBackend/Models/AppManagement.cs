@@ -44,6 +44,8 @@ namespace AITestBackend.Models
         #region Patients
         public static string SP_GetAllPatients = "sp_get_all_patient";
         public static string SP_InsertPatients = "sp_insert_patient";
+
+        public static string SP_InsertPatientsTreatmentDeseases = "sp_insert_patienttreatmentdeseases";
         #endregion
 
         #endregion
