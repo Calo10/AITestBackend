@@ -9,19 +9,8 @@ using Newtonsoft.Json;
 
 namespace AITestBackend.Controllers
 {
-    public class AccessController : Controller
+    public class AccessController : BaseController
     {
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Error(string ErrorMessage)
-        {
-            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
 
         #region Parent
 
@@ -70,22 +59,5 @@ namespace AITestBackend.Controllers
 
 
         #endregion
-
-
-        /// <summary>
-        /// Security API Validator
-        /// </summary>
-        /// <returns></returns>
-        private bool ValidateSecurityAPI()
-        {
-            var AccessToken = string.Empty;
-
-            if (Request.Headers.TryGetValue("AccessToken", out Microsoft.Extensions.Primitives.StringValues headerValues))
-            {
-                AccessToken = headerValues.FirstOrDefault();
-            }
-
-            return SecurityController.GetInstance().ValidateSecurityToken(AccessToken);
-        }
     }
 }
