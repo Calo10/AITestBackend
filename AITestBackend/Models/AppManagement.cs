@@ -5,6 +5,8 @@ namespace AITestBackend.Models
     {
 
         //APP 
+        public const string connStr = "server=50.62.209.187;user=xdevs;database=ALCCI_DB;port=3306;password=pass123;SslMode=none";
+
         public const string APIS_Token = "";
 
         //IBM Chatbot
