@@ -57,6 +57,42 @@ namespace AITestBackend.Models
             return new ResponsePatients { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllPatients_Success, Patients = patients };
         }
 
+        public static ResponsePatient GetPatient(string identification)
+        {
+            PatientModel patient = null;
+
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
+                string SP = AppManagement.SP_GetPatient;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@p_id_patient", identification);
+
+                using (MySqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        patient = new PatientModel()
+                        {
+                            Identification = rdr["id_patient"].ToString(),
+                            Name = rdr["name"].ToString(),
+                            BirthDate = Convert.ToDateTime(rdr["birth_date"]),
+                            Age = Convert.ToInt32(rdr["age"]),
+                            Ethnic = new EthnicModel()
+                            {
+                                Id = Convert.ToInt32(rdr["id_ethnic_group"]),
+                                Name = rdr["ethnic_name"].ToString()
+                            },
+                            Gender = rdr["gender"].ToString()
+                        };
+                    }
+                }
+            }
+            return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };
+        }
+
         public static Response SavePatient(PatientModel patient)
         {
             int rowAffected = 0;

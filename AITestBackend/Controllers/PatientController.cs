@@ -12,7 +12,7 @@ namespace AITestBackend.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string Get(string parentId)
+        public string GetAll(string parentId)
         {
             ResponsePatients ans = null;
 
@@ -50,6 +50,32 @@ namespace AITestBackend.Controllers
                     {
                         ans = PatientModel.SavePatient(patientModel);
                     }
+                }
+                else
+                {
+                    return AppManagement.MSG_API_Validation_Failure;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error(ex.Message);
+            }
+
+            return JsonConvert.SerializeObject(ans);
+        }
+
+        [HttpGet()]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public string Get(string identification)
+        {
+            ResponsePatient ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ans = PatientModel.GetPatient(identification);
                 }
                 else
                 {
