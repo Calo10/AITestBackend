@@ -14,10 +14,12 @@ namespace AITestBackend.Models
         public string Gender { get; set; }
 
         public EthnicModel Ethnic { get; set; }
-        
+
         public string IdParent { get; set; }
 
         public int Age { get; set; }
+
+        public List<PatientTreatmentDeseaseModel> Treatments { get; set; }
 
         public static ResponsePatients GetAll(string parentId)
         {
@@ -38,6 +40,7 @@ namespace AITestBackend.Models
 
                     while (rdr.Read())
                     {
+                        List<PatientTreatmentDeseaseModel> treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(rdr["id_patient"].ToString()).PatientTreatmentDeseases;
                         patients.Add(new PatientModel()
                         {
                             Identification = rdr["id_patient"].ToString(),
@@ -49,9 +52,12 @@ namespace AITestBackend.Models
                                 Id = Convert.ToInt32(rdr["id_ethnic_group"]),
                                 Name = rdr["ethnic_name"].ToString()
                             },
-                            Gender = rdr["gender"].ToString()
+                            Gender = rdr["gender"].ToString(),
+                            Treatments = treatments
                         });
                     }
+
+
                 }
             }
             return new ResponsePatients { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllPatients_Success, Patients = patients };
@@ -59,27 +65,56 @@ namespace AITestBackend.Models
 
         public static Response SavePatient(PatientModel patient)
         {
-            int rowAffected = 0;
-            using (MySqlConnection conn = ConecctionModel.conn)
+            MySqlTransaction tr = null;
+            try
             {
-                conn.Open();
+                int rowAffected = 0;
+                using (MySqlConnection conn = ConecctionModel.conn)
+                {
+                    conn.Open();
 
-                string SP = AppManagement.SP_InsertPatients;
-                MySqlCommand cmd = new MySqlCommand(SP, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
+                    string SP = AppManagement.SP_InsertPatients;
+                    MySqlCommand cmd = new MySqlCommand(SP, conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@id_patient", patient.Identification);
-                cmd.Parameters.AddWithValue("@id_parent", patient.IdParent);
-                cmd.Parameters.AddWithValue("@name", patient.Name);
-                cmd.Parameters.AddWithValue("@birth_date", patient.BirthDate);
-                cmd.Parameters.AddWithValue("@age", patient.Age);
-                cmd.Parameters.AddWithValue("@gender", patient.Gender);
-                cmd.Parameters.AddWithValue("@id_ethnic_group", patient.Ethnic.Id);
+                    cmd.Parameters.AddWithValue("@id_patient", patient.Identification);
+                    cmd.Parameters.AddWithValue("@id_parent", patient.IdParent);
+                    cmd.Parameters.AddWithValue("@name", patient.Name);
+                    cmd.Parameters.AddWithValue("@birth_date", patient.BirthDate);
+                    cmd.Parameters.AddWithValue("@age", patient.Age);
+                    cmd.Parameters.AddWithValue("@gender", patient.Gender);
+                    cmd.Parameters.AddWithValue("@id_ethnic_group", patient.Ethnic.Id);
 
-                rowAffected = cmd.ExecuteNonQuery();
+                    rowAffected = cmd.ExecuteNonQuery();
+
+                    if (rowAffected != 0)
+                    {
+                        foreach (var treatment in patient.Treatments)
+                        {
+                            if (!PatientTreatmentDeseaseModel.SaveTreatmentDeseases(treatment, conn).IsSuccessful)
+                            {
+                                tr.Rollback();
+                                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                            }
+                        }
+                        tr.Commit();
+                        return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveTreatment_Success };
+                    }
+                    else
+                    {
+                        tr.Rollback();
+                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                tr.Rollback();
+                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
             }
 
-            return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SavePatients_Success };
+
+
         }
     }
 }

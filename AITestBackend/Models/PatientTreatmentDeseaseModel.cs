@@ -67,6 +67,38 @@ namespace AITestBackend.Models
             
         }
 
+        public static PatientTreatmentDeseaseList GetAllTreatmentDeseasest(string identification)
+        {
+            List<PatientTreatmentDeseaseModel> treatments = new List<PatientTreatmentDeseaseModel>();
+
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
+                string SP = AppManagement.SP_GetAllTreatmentDeseases;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@identification", identification);
+
+
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    PatientTreatmentDeseaseModel treatment = new PatientTreatmentDeseaseModel();
+                    treatment.Identification = rdr["id_patient"].ToString();
+                    treatment.Type = Convert.ToInt32(rdr["type"]);
+                    treatment.Description = rdr["description"].ToString();
+
+                    treatments.Add(treatment);
+                }
+
+                rdr.Close();
+
+                return new PatientTreatmentDeseaseList { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllTreatments_Success, PatientTreatmentDeseases = treatments };
+            }
+        }
+
         #endregion
     }
 }

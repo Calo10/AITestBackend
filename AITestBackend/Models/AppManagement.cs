@@ -46,6 +46,7 @@ namespace AITestBackend.Models
         public static string SP_InsertPatients = "sp_insert_patient";
 
         public static string SP_InsertPatientsTreatmentDeseases = "sp_insertupdatetreatment";
+        public static string SP_GetAllTreatmentDeseases = "sp_get_all_treatment_deseases";
         #endregion
 
         #endregion
@@ -88,7 +89,8 @@ namespace AITestBackend.Models
 
         public const string MSG_SaveTreatment_Success = "Registro Actualizado / Creado Exitosamente!";
         public const string MSG_SaveTreatment_Failure = "Error en la Actualización / Creación del Registro";
-
+        public const string MSG_GetAllTreatments_Success = "Carga Exitosa de Tratamientos";
+        
 
         #endregion
 
