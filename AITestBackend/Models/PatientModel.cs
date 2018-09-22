@@ -30,7 +30,7 @@ namespace AITestBackend.Models
                 MySqlCommand cmd = new MySqlCommand(SP, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@id_parent", parentId);
+                cmd.Parameters.AddWithValue("@p_id_parent", parentId);
 
                 using (MySqlDataReader rdr = cmd.ExecuteReader())
                 {
