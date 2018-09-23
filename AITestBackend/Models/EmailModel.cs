@@ -28,15 +28,11 @@ namespace AITestBackend.Models
                 
 
 
-                strEmail.Replace("[Nombre del Encargado]",Parent.Name);
-                strEmail.Replace("[NombreDelPaciente]", Patient.Name);
-                strEmail.Replace("[NumeroCedula]", Parent.Identification);
-                strEmail.Replace("[CondicionPaciente]", condition);
-                strEmail.Replace("[SintomasPaciente]", causes);
+                strEmail = strEmail.Replace("[Nombre del Encargado]",Parent.Name).Replace("[NombreDelPaciente]", Patient.Name).Replace("[NumeroCedula]", Parent.Identification).Replace("[CondicionPaciente]", condition).Replace("[SintomasPaciente]", causes);
                                
 
                 //AlternateView htmlView = AlternateView.CreateAlternateViewFromString(strEmail, System.Text.Encoding.UTF8, "text/html");
-                MailMessage correo = new MailMessage(Parent.Email, Parent.Email);
+                MailMessage correo = new MailMessage("goediguti@gmail.com", "prevencionalccicr@gmail.com");
 
                 //   Agregar vista a email
                 //correo.AlternateViews.Add(htmlView);
