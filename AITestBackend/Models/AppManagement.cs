@@ -9,6 +9,16 @@ namespace AITestBackend.Models
 
         public const string APIS_Token = "";
 
+        //IBM Speech To Text
+        public const string WorkspaceIDST = "799aecc9-dcb3-41db-b85a-36043cf448b9";
+        public const string WorkspaceURLST = "https://stream.watsonplatform.net/speech-to-text/api/v1/recognize/";
+
+        public const string UserNameST = "7ce55b15-49e3-4f6d-ba80-4b0d26920ce3";
+        public const string PasswordST = "phDTyV3VeLmd ";
+        public const string VersionDateST = "2018-07-10";
+
+
+
         //IBM Chatbot
         public const string WorkspaceID = "799aecc9-dcb3-41db-b85a-36043cf448b9";
         public const string WorkspaceURL = "https://gateway.watsonplatform.net/assistant/api/v1/workspaces/" + WorkspaceID + "/message/";
@@ -44,6 +54,8 @@ namespace AITestBackend.Models
         #region Patients
         public static string SP_GetAllPatients = "sp_get_all_patient";
         public static string SP_InsertPatients = "sp_insert_patient";
+        public static string SP_GetAllPatientCases = "sp_get_all_patient_case";
+        
 
 
 
@@ -54,6 +66,9 @@ namespace AITestBackend.Models
 
         public static string SP_Save_Patient_Attachments = "sp_save_patient_attachments";
         public static string SP_GetAll_Attachments = "sp_get_all_attachments";
+        public static string SP_Delete_Attachments = "sp_delete_attachment";
+
+        public static string SP_GetAll_Histories = "sp_get_all_patient_history";
 
         #endregion
 
@@ -111,7 +126,9 @@ namespace AITestBackend.Models
         public const string MSG_SaveAttachment_Failure20 = "Tiene mas de 20 archivos para el mismo paciente, no se puede ingresar el registro";
         public const string MSG_SaveTreatment_MaxPatients = "Ha excedido la cantidad máxima de pacientes(5)";
         public const string MSG_GetAllAttachments_Success = "Consulta de Antecedentes Exitosa!";
-
+        public const string MSG_DeleteAttachment_Success = "Registro borrado Exitosamente!";
+        public const string MSG_DeleteAttachment_Failure = "Error en el borrado del Antecedente";
+        public const string MSG_GetAllHistories_Success = "Consulta de Historiales Exitosa!";
         #endregion
 
         #endregion

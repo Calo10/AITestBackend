@@ -27,4 +27,9 @@ namespace AITestBackend.Models
         public List<AttachmentsModel> ResponseAttachments { get; set; }
     }
 
+    public class ResponseHistoriesList : Response
+    {
+        public List<PatientHistoryModel> ResponseHistories { get; set; }
+    }
+
 }
