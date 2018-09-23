@@ -52,6 +52,8 @@ namespace AITestBackend.Models
 
         public static string SP_GetPatient = "sp_get_patient";
 
+        public static string SP_Save_Patient_Attachments = "sp_save_patient_attachments";
+
         #endregion
 
         #endregion
@@ -105,7 +107,7 @@ namespace AITestBackend.Models
         public const string MSG_SaveAttachment_Success = "Registro insertado Exitosamente!";
         public const string MSG_SaveAttachment_FailureDefault = "Error en la ingreso del Antecedente";
         public const string MSG_SaveAttachment_Failure20 = "Tiene mas de 20 archivos para el mismo paciente, no se puede ingresar el registro";
-
+        public const string MSG_GetAllAttachments_Success = "Consulta de Antecedentes Exitosa!";
 
         #endregion
 

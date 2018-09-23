@@ -120,7 +120,7 @@ namespace AITestBackend.Controllers
         [HttpPost("[controller]/Login")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public Response Login(string Parent)
+        public Response Login([FromBody]ParentModel Parent)
         {
 
             Response ans = null;
@@ -129,8 +129,8 @@ namespace AITestBackend.Controllers
             {
                 if (ValidateSecurityAPI())
                 {
-                    ParentModel parent = JsonConvert.DeserializeObject<ParentModel>(Parent);
-                    ans = ParentModel.Login(parent);
+                    //ParentModel parent = JsonConvert.DeserializeObject<ParentModel>(Parent);
+                    ans = ParentModel.Login(Parent);
                 }
                 else
                 {

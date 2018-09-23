@@ -22,4 +22,9 @@ namespace AITestBackend.Models
         public List<PatientTreatmentDeseaseModel> PatientTreatmentDeseases { get; set; }
     }
 
+    public class ResponseAttachmentsList : Response
+    {
+        public List<AttachmentsModel> ResponseAttachments { get; set; }
+    }
+
 }
