@@ -33,8 +33,9 @@ namespace AITestBackend.Models
 
                 while (rdr.Read())
                 {
-                    parentModel.Identification = rdr["idCurrency"].ToString();
-                    parentModel.Name = rdr["Code"].ToString();
+                    parentModel.Email = rdr["email"].ToString();
+                    parentModel.Name = rdr["name"].ToString();
+                    parentModel.Identification = rdr["id_user"].ToString();
                 }
 
                 rdr.Close();

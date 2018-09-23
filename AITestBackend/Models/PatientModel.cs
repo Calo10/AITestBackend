@@ -46,6 +46,7 @@ namespace AITestBackend.Models
                         patients.Add(new PatientModel()
                         {
                             Identification = rdr["id_patient"].ToString(),
+                            IdParent = rdr["id_parent"].ToString(),
                             Name = rdr["name"].ToString(),
                             BirthDate = Convert.ToDateTime(rdr["birth_date"]),
                             Age = Convert.ToInt32(rdr["age"]),
@@ -82,6 +83,7 @@ namespace AITestBackend.Models
                         patient = new PatientModel()
                         {
                             Identification = rdr["id_patient"].ToString(),
+                            IdParent = rdr["id_parent"].ToString(),
                             Name = rdr["name"].ToString(),
                             BirthDate = Convert.ToDateTime(rdr["birth_date"]),
                             Age = Convert.ToInt32(rdr["age"]),

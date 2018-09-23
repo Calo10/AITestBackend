@@ -176,6 +176,33 @@ namespace AITestBackend.Controllers
             return ans;
         }
 
+        [HttpPost("[controller]/SendMail")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public Response SendMail(string identification)
+        {
+            Response ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ans = EmailModel.SendMail(identification);
+                }
+                else
+                {
+                    ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
+                }
+            }
+            catch (Exception ex)
+            {
+                ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
+            }
+
+            return ans;
+        }
+
+
         #endregion
     }
 }
