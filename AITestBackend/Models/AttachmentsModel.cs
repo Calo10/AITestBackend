@@ -15,7 +15,7 @@ namespace AITestBackend.Models
 
         #region Attachaments
 
-        public static Response SavePatient(AttachmentsModel attachments)
+        public static Response SaveAttachment(AttachmentsModel attachments)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace AITestBackend.Models
                     conn.Open();
                     int idresult = 0;
 
-                    string SP = AppManagement.SP_LoginUser;
+                    string SP = AppManagement.SP_Save_Patient_Attachments;
 
                     MySqlCommand cmd = new MySqlCommand(SP, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -55,19 +55,44 @@ namespace AITestBackend.Models
                         return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveAttachment_Success };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveAttachment_FailureDefault };
             }
 
         }
 
-        public static ResponseAttachments GetAllAttachments(string identification)
+
+        public static ResponseAttachmentsList GetAllAttachments(string identification)
         {
-            throw new NotImplementedException();
+            List<AttachmentsModel> attachments = new List<AttachmentsModel>();
+
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
+                string SP = AppManagement.SP_GetParent;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@pidentification", identification);
+
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    AttachmentsModel attachment = new AttachmentsModel();
+                    attachment.Identification = rdr["id_patient"].ToString();
+                    attachment.FileName = rdr["file_name"].ToString();
+                    attachment.Content = rdr["content"].ToString();
+
+                    attachments.Add(attachment);
+                }
+
+                rdr.Close();
+
+                return new ResponseAttachmentsList { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllAttachments_Success, ResponseAttachments = attachments };
+            }
         }
-
-
         #endregion
     }
 }

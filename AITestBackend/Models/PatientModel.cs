@@ -111,7 +111,7 @@ namespace AITestBackend.Models
 
             if (patients.IsSuccessful)
             {
-                if ((patients.IsNotNull() && patients.Patients.Count < 5) || patients.IsNotNull())
+                if ((patients.IsNotNull() && patients.Patients.Count < 5) || patients.IsNull())
                 {
                     MySqlTransaction tr = null;
                     try
