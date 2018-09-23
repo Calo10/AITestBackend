@@ -176,7 +176,7 @@ namespace AITestBackend.Controllers
             return ans;
         }
 
-        [HttpPost("[controller]/SendMail")]
+        [HttpGet("[controller]/SendMail")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         public Response SendMail(string identification)
