@@ -9,4 +9,11 @@ namespace AITestBackend.Models
 
         public IBM.WatsonDeveloperCloud.Assistant.v1.Model.Context Context { get; set; }
     }
+
+
+    public class SendMessageToSpeechToTextResponse : Response
+    {
+        public List<string> lstMessages { get; set; }
+
+    }
 }

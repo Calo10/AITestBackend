@@ -11,28 +11,24 @@ namespace AITestBackend.Models
         {
         }
 
-        public static void SendMessageToAssistant(byte[] messsage)
+        public static SendMessageToSpeechToTextResponse SendMessageToAssistant(byte[] audio)
         {
             List<string> lstMessages = new List<string>();
 
             try
             {
-                byte[] newbyte = new byte[1];
-                //IBM.WatsonDeveloperCloud.Assistant.v1.Model.MessageResponse response = 
-                IBMWatsonSpeechToText.SendMessageToAssistant(messsage);
+                var response = IBMWatsonSpeechToText.SendMessageToAssistant(audio);
 
-                //var aasd = response.Output.text;
-
-                //foreach (var item in response.Output.text)
-                //{
-                //    lstMessages.Add(item.ToString());
-                //}
-                //Pending validation error from API
-                //return new SendMessageToAssistantResponse { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SendMessageToAssistantResponse_Succesful, lstMessages = lstMessages };
+                foreach (var item in response.Results)
+                {
+                    lstMessages.Add(item.ToString());
+                }
+                
+                return new SendMessageToSpeechToTextResponse { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SendMessageToAssistantResponse_Succesful, lstMessages = lstMessages };
             }
             catch (Exception ex)
             {
-                //return new SendMessageToAssistantResponse { IsSuccessful = false, ResponseMessage = ErroMessagesTranslate.TranslateException(ex), lstMessages = lstMessages };
+                return new SendMessageToSpeechToTextResponse { IsSuccessful = false, ResponseMessage = ErroMessagesTranslate.TranslateException(ex), lstMessages = lstMessages };
             }
         }
     }

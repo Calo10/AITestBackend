@@ -12,16 +12,15 @@ namespace AITestBackend.Controllers
 {
     public class SpeechToTextController : Controller
     {
-        public string SendMessageToBot(byte[] message)
+        public string SendMessageToBot(byte[] audio)
         {
-            SendMessageToAssistantResponse ans = null;
+            SendMessageToSpeechToTextResponse ans = null;
             try
             {
                 if (ValidateSecurityAPI())
                 {
-
-                    //ans = 
-                        SpeechToTextModel.SendMessageToAssistant(message);
+                    
+                    ans = SpeechToTextModel.SendMessageToAssistant(audio);
                 }
                 else
                 {
