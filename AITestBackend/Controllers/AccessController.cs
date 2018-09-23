@@ -146,5 +146,36 @@ namespace AITestBackend.Controllers
         }
 
         #endregion
+
+        #region PatientHistory
+
+        [HttpGet("[controller]/GetAllHistories")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public ResponsePatientCases GetAllPatientCases(string identification)
+        {
+
+            ResponsePatientCases ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ans = PatientCaseModel.GetAllPatientCases(identification);
+                }
+                else
+                {
+                    ans = new ResponsePatientCases() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
+                }
+            }
+            catch (Exception ex)
+            {
+                ans = new ResponsePatientCases() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
+            }
+
+            return ans;
+        }
+
+        #endregion
     }
 }
