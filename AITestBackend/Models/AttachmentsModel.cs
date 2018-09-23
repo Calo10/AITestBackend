@@ -96,7 +96,30 @@ namespace AITestBackend.Models
             }
         }
 
+        public static Response DeleteAttachment(AttachmentsModel attachment)
+        {
+            using (MySqlConnection conn = ConecctionModel.conn)
+            {
+                conn.Open();
 
+                string SP = AppManagement.SP_Delete_Attachments;
+                MySqlCommand cmd = new MySqlCommand(SP, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@pidentification", attachment.Identification);
+                cmd.Parameters.AddWithValue("@pfilename", attachment.FileName);
+
+
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                rdr.Close();
+
+                if (rdr.RecordsAffected != 0)
+                    return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_DeleteAttachment_Success };
+
+                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_DeleteAttachment_Failure };
+            }
+        }
 
         #endregion
     }

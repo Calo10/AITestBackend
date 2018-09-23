@@ -40,7 +40,7 @@ namespace AITestBackend.Controllers
             return ans;
         }
 
-        [HttpGet("[controller]/GetParent")]
+        [HttpGet("[controller]/GetAllAttachments")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         public ResponseAttachmentsList GetAllAttachments(string identification)
@@ -64,6 +64,31 @@ namespace AITestBackend.Controllers
                 ans = new ResponseAttachmentsList() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
+            return ans;
+        }
+
+        [HttpPost("[controller]/DeleteAttachment")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public Response DeleteAttachment([FromBody]AttachmentsModel attachmentsModel)
+        {
+            Response ans = null;
+
+            try
+            {
+                if (ValidateSecurityAPI())
+                {
+                    ans = AttachmentsModel.DeleteAttachment(attachmentsModel);
+                }
+                else
+                {
+                    ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
+                }
+            }
+            catch (Exception ex)
+            {
+                ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
+            }
             return ans;
         }
 

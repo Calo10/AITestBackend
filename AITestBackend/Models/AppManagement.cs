@@ -54,6 +54,7 @@ namespace AITestBackend.Models
 
         public static string SP_Save_Patient_Attachments = "sp_save_patient_attachments";
         public static string SP_GetAll_Attachments = "sp_get_all_attachments";
+        public static string SP_Delete_Attachments = "sp_delete_attachment";
 
         #endregion
 
@@ -111,7 +112,8 @@ namespace AITestBackend.Models
         public const string MSG_SaveAttachment_Failure20 = "Tiene mas de 20 archivos para el mismo paciente, no se puede ingresar el registro";
         public const string MSG_SaveTreatment_MaxPatients = "Ha excedido la cantidad máxima de pacientes(5)";
         public const string MSG_GetAllAttachments_Success = "Consulta de Antecedentes Exitosa!";
-
+        public const string MSG_DeleteAttachment_Success = "Registro borrado Exitosamente!";
+        public const string MSG_DeleteAttachment_Failure = "Error en el borrado del Antecedente";
         #endregion
 
         #endregion
