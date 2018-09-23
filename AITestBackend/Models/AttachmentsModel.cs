@@ -12,6 +12,7 @@ namespace AITestBackend.Models
         public string Identification { get; set; }
         public string FileName { get; set; }
         public string Content { get; set; }
+        public string Extension { get; set; }
 
         #region Attachaments
 
@@ -32,6 +33,7 @@ namespace AITestBackend.Models
                     cmd.Parameters.AddWithValue("@pidentification", attachments.Identification);
                     cmd.Parameters.AddWithValue("@pfilename", attachments.FileName);
                     cmd.Parameters.AddWithValue("@pcontent", attachments.Content);
+                    cmd.Parameters.AddWithValue("@pextension", attachments.Extension);
 
 
                     MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
@@ -61,8 +63,7 @@ namespace AITestBackend.Models
             }
 
         }
-
-
+        
         public static ResponseAttachmentsList GetAllAttachments(string identification)
         {
             List<AttachmentsModel> attachments = new List<AttachmentsModel>();
@@ -70,7 +71,7 @@ namespace AITestBackend.Models
             using (MySqlConnection conn = ConecctionModel.conn)
             {
                 conn.Open();
-                string SP = AppManagement.SP_GetParent;
+                string SP = AppManagement.SP_GetAll_Attachments;
                 MySqlCommand cmd = new MySqlCommand(SP, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -84,6 +85,7 @@ namespace AITestBackend.Models
                     attachment.Identification = rdr["id_patient"].ToString();
                     attachment.FileName = rdr["file_name"].ToString();
                     attachment.Content = rdr["content"].ToString();
+                    attachment.Extension = rdr["extension"].ToString();
 
                     attachments.Add(attachment);
                 }
@@ -93,6 +95,9 @@ namespace AITestBackend.Models
                 return new ResponseAttachmentsList { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllAttachments_Success, ResponseAttachments = attachments };
             }
         }
+
+
+
         #endregion
     }
 }

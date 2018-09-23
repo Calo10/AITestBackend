@@ -53,6 +53,7 @@ namespace AITestBackend.Models
         public static string SP_GetPatient = "sp_get_patient";
 
         public static string SP_Save_Patient_Attachments = "sp_save_patient_attachments";
+        public static string SP_GetAll_Attachments = "sp_get_all_attachments";
 
         #endregion
 
