@@ -58,7 +58,7 @@ namespace AITestBackend.Controllers
             }
             catch (Exception ex)
             {
-                ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
+                ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Duplicate };
             }
 
             return ans;

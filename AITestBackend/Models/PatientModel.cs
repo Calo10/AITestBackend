@@ -99,7 +99,7 @@ namespace AITestBackend.Models
             {
                 patient.Treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(patient.Identification).PatientTreatmentDeseases;
 
-                //patient.Attachments = AttachmentsModel.GetAllAttachments(patient.Identification).Attachments;
+                patient.Attachments = AttachmentsModel.GetAllAttachments(patient.Identification).ResponseAttachments;
             }
 
             return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };

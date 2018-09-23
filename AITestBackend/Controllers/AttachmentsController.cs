@@ -17,6 +17,7 @@ namespace AITestBackend.Controllers
         [HttpPost("[controller]/SaveAttachment")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
+        [DisableRequestSizeLimit]
         public Response SaveAttachment([FromBody]AttachmentsModel attachmentsModel)
         {
             Response ans = null;
