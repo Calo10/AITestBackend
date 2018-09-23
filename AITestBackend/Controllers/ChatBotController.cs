@@ -12,7 +12,11 @@ namespace AITestBackend.Controllers
 {
     public class ChatBotController : Controller
     {
-        public string SendMessageToBot(string message)
+
+        [HttpPost()]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public SendMessageToAssistantResponse SendMessageToBot(string message, [FromBody]IBM.WatsonDeveloperCloud.Assistant.v1.Model.Context context)
         {
             SendMessageToAssistantResponse ans = null;
             try
@@ -24,7 +28,7 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new SendMessageToAssistantResponse() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
@@ -32,7 +36,7 @@ namespace AITestBackend.Controllers
                 Error(ex.Message);
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
 
         }
 
