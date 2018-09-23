@@ -24,7 +24,7 @@ namespace AITestBackend.Controllers
                 if (ValidateSecurityAPI())
                 {
 
-                    ans = ChatBotModel.SendMessageToAssistant(message);
+                    ans = ChatBotModel.SendMessageToAssistant(message,context);
                 }
                 else
                 {

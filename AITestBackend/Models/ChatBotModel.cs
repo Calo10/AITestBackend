@@ -11,22 +11,24 @@ namespace AITestBackend.Models
         {
         }
 
-        public static SendMessageToAssistantResponse SendMessageToAssistant(string messsage)
+        public static SendMessageToAssistantResponse SendMessageToAssistant(string messsage, IBM.WatsonDeveloperCloud.Assistant.v1.Model.Context context)
         {
             List<string> lstMessages = new List<string>();
 
             try
             {
-                IBM.WatsonDeveloperCloud.Assistant.v1.Model.MessageResponse response = IBMWatsonChatBot.SendMessageToAssistant(messsage);
+                IBM.WatsonDeveloperCloud.Assistant.v1.Model.MessageResponse response = IBMWatsonChatBot.SendMessageToAssistant(messsage, context);
 
-                var aasd = response.Output.text;
+
+                var aasd = response.Context;
+
 
                 foreach (var item in response.Output.text)
                 {
                     lstMessages.Add(item.ToString());
                 }
                 //Pending validation error from API
-                return new SendMessageToAssistantResponse { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SendMessageToAssistantResponse_Succesful, lstMessages = lstMessages };
+                return new SendMessageToAssistantResponse { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SendMessageToAssistantResponse_Succesful, lstMessages = lstMessages,Context = response.Context };
             }
             catch (Exception ex)
             {
