@@ -21,6 +21,8 @@ namespace AITestBackend.Models
 
         public List<PatientTreatmentDeseaseModel> Treatments { get; set; }
 
+        public List<AttachmentsModel> Attachments { get; set; }
+
         public static ResponsePatients GetAll(string parentId)
         {
             List<PatientModel> patients = null;
@@ -54,8 +56,6 @@ namespace AITestBackend.Models
                             Gender = rdr["gender"].ToString()
                         });
                     }
-
-
                 }
             }
             return new ResponsePatients { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetAllPatients_Success, Patients = patients };
@@ -98,6 +98,8 @@ namespace AITestBackend.Models
             if (patient.IsNotNull())
             {
                 patient.Treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(patient.Identification).PatientTreatmentDeseases;
+
+                //patient.Attachments = AttachmentsModel.GetAllAttachments(patient.Identification).Attachments;
             }
 
             return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };
@@ -112,6 +114,8 @@ namespace AITestBackend.Models
                 using (MySqlConnection conn = ConecctionModel.conn)
                 {
                     conn.Open();
+
+                    tr = conn.BeginTransaction();
 
                     string SP = AppManagement.SP_InsertPatients;
                     MySqlCommand cmd = new MySqlCommand(SP, conn);
@@ -129,12 +133,15 @@ namespace AITestBackend.Models
 
                     if (rowAffected != 0)
                     {
-                        foreach (var treatment in patient.Treatments)
+                        if (patient.Treatments.IsNotNull())
                         {
-                            if (!PatientTreatmentDeseaseModel.SaveTreatmentDeseases(treatment, conn).IsSuccessful)
+                            foreach (var treatment in patient.Treatments)
                             {
-                                tr.Rollback();
-                                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                                if (!PatientTreatmentDeseaseModel.SaveTreatmentDeseases(treatment, conn).IsSuccessful)
+                                {
+                                    tr.Rollback();
+                                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                                }
                             }
                         }
                         tr.Commit();
@@ -147,10 +154,18 @@ namespace AITestBackend.Models
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 tr.Rollback();
-                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+
+                if (ex.ToString().Contains("PRIMARY"))
+                {
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Duplicate };
+                }
+                else
+                {
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                }
             }
 
 

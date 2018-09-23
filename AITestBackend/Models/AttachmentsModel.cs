@@ -62,6 +62,7 @@ namespace AITestBackend.Models
 
         }
 
+<<<<<<< HEAD
         public static ResponseAttachmentsList GetAllAttachments(string identification)
         {
             List<AttachmentsModel> attachments = new List<AttachmentsModel>();
@@ -86,6 +87,13 @@ namespace AITestBackend.Models
 
                     attachments.Add(attachment);
                 }
+=======
+        public static ResponseAttachments GetAllAttachments(string identification)
+        {
+            throw new NotImplementedException();
+        }
+
+>>>>>>> 0e404a6cdd95f9442b65c71e7001e99ceacce189
 
                 rdr.Close();
 
