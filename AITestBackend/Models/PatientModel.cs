@@ -20,6 +20,7 @@ namespace AITestBackend.Models
         public int Age { get; set; }
 
         public List<PatientTreatmentDeseaseModel> Treatments { get; set; }
+        public List<PatientCaseModel> Cases { get; set; }
 
         public List<AttachmentsModel> Attachments { get; set; }
 
@@ -99,7 +100,7 @@ namespace AITestBackend.Models
             {
                 patient.Treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(patient.Identification).PatientTreatmentDeseases;
 
-                //patient.Attachments = AttachmentsModel.GetAllAttachments(patient.Identification).Attachments;
+                patient.Cases = PatientCaseModel.GetAllPatientCases(patient.Identification).PatientCases;
             }
 
             return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };

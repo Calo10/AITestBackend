@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IBM.WatsonDeveloperCloud.SpeechToText.v1" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="IBM.WatsonDeveloperCloud.Assistant.v1" Version="2.8.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
@@ -14,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Conectors\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>
