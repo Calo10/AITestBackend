@@ -70,9 +70,7 @@ namespace AITestBackend.Models
 
                 idresult = Int32.Parse(cmd.Parameters["@result"].Value.ToString());
 
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                rdr.Close();
+                cmd.ExecuteNonQuery();
 
                 if (idresult != 0)
                 {
