@@ -100,11 +100,11 @@ namespace AITestBackend.Models
             {
                 patient.Treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(patient.Identification).PatientTreatmentDeseases;
 
-<<<<<<< HEAD
+
                 patient.Attachments = AttachmentsModel.GetAllAttachments(patient.Identification).ResponseAttachments;
-=======
+
                 patient.Cases = PatientCaseModel.GetAllPatientCases(patient.Identification).PatientCases;
->>>>>>> 28c8a74899eea9fb769fffac4b044f7bf8f8f09e
+
             }
 
             return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };
