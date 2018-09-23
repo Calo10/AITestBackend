@@ -44,20 +44,14 @@ namespace AITestBackend.Models
         #region Patients
         public static string SP_GetAllPatients = "sp_get_all_patient";
         public static string SP_InsertPatients = "sp_insert_patient";
-<<<<<<< HEAD
+
 
 
         public static string SP_InsertPatientsTreatmentDeseases = "sp_insertupdatetreatment";
         public static string SP_GetAllTreatmentDeseases = "sp_get_all_treatment_deseases";
 
         public static string SP_GetPatient = "sp_get_patient";
-        
 
-=======
-        public static string SP_GetAllTreatmentDeseases = "sp_get_all_treatment_deseases";
-        public static string SP_GetPatient = "sp_get_patient";
-        public static string SP_InsertPatientsTreatmentDeseases = "sp_insert_patienttreatmentdeseases";
->>>>>>> 47ff6e5a17dcba387cb8dde10c6b369b5f2a2a6d
         #endregion
 
         #endregion
@@ -101,7 +95,17 @@ namespace AITestBackend.Models
         public const string MSG_SaveTreatment_Success = "Registro Actualizado / Creado Exitosamente!";
         public const string MSG_SaveTreatment_Failure = "Error en la Actualización / Creación del Registro";
         public const string MSG_GetAllTreatments_Success = "Carga Exitosa de Tratamientos";
-        
+
+
+        #endregion
+
+
+        #region Attachments
+
+        public const string MSG_SaveAttachment_Success = "Registro insertado Exitosamente!";
+        public const string MSG_SaveAttachment_FailureDefault = "Error en la ingreso del Antecedente";
+        public const string MSG_SaveAttachment_Failure20 = "Tiene mas de 20 archivos para el mismo paciente, no se puede ingresar el registro";
+
 
         #endregion
 
