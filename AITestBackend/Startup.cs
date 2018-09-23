@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -27,8 +28,20 @@ namespace AITestBackend
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Add Cors
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("MyPolicy"));
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -58,6 +71,7 @@ namespace AITestBackend
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "ALCCI API V1");
             });
 
+            app.UseCors("MyPolicy");
             //app.UseCookiePolicy();
 
             app.UseMvc(routes =>

@@ -62,6 +62,11 @@ namespace AITestBackend.Models
 
         }
 
+        public static ResponseAttachments GetAllAttachments(string identification)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
     }

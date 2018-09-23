@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AITestBackend.Models
 {
-    public class ConecctionModel
+    public class ConecctionModel : IDisposable
     {
 
         #region Singleton
@@ -42,5 +42,9 @@ namespace AITestBackend.Models
 
         }
 
+        public void Dispose()
+        {
+            conn.Close();
+        }
     }
 }
