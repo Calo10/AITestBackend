@@ -107,69 +107,82 @@ namespace AITestBackend.Models
 
         public static Response SavePatient(PatientModel patient)
         {
-            MySqlTransaction tr = null;
-            try
+            ResponsePatients patients = PatientModel.GetAll(patient.IdParent);
+
+            if (patients.IsSuccessful)
             {
-                int rowAffected = 0;
-                using (MySqlConnection conn = ConecctionModel.conn)
+                if ((patients.IsNotNull() && patients.Patients.Count < 5) || patients.IsNotNull())
                 {
-                    conn.Open();
-
-                    tr = conn.BeginTransaction();
-
-                    string SP = AppManagement.SP_InsertPatients;
-                    MySqlCommand cmd = new MySqlCommand(SP, conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@id_patient", patient.Identification);
-                    cmd.Parameters.AddWithValue("@id_parent", patient.IdParent);
-                    cmd.Parameters.AddWithValue("@name", patient.Name);
-                    cmd.Parameters.AddWithValue("@birth_date", patient.BirthDate);
-                    cmd.Parameters.AddWithValue("@age", patient.Age);
-                    cmd.Parameters.AddWithValue("@gender", patient.Gender);
-                    cmd.Parameters.AddWithValue("@id_ethnic_group", patient.Ethnic.Id);
-
-                    rowAffected = cmd.ExecuteNonQuery();
-
-                    if (rowAffected != 0)
+                    MySqlTransaction tr = null;
+                    try
                     {
-                        if (patient.Treatments.IsNotNull())
+                        int rowAffected = 0;
+                        using (MySqlConnection conn = ConecctionModel.conn)
                         {
-                            foreach (var treatment in patient.Treatments)
+                            conn.Open();
+
+                            tr = conn.BeginTransaction();
+
+                            string SP = AppManagement.SP_InsertPatients;
+                            MySqlCommand cmd = new MySqlCommand(SP, conn);
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            cmd.Parameters.AddWithValue("@id_patient", patient.Identification);
+                            cmd.Parameters.AddWithValue("@id_parent", patient.IdParent);
+                            cmd.Parameters.AddWithValue("@name", patient.Name);
+                            cmd.Parameters.AddWithValue("@birth_date", patient.BirthDate);
+                            cmd.Parameters.AddWithValue("@age", patient.Age);
+                            cmd.Parameters.AddWithValue("@gender", patient.Gender);
+                            cmd.Parameters.AddWithValue("@id_ethnic_group", patient.Ethnic.Id);
+
+                            rowAffected = cmd.ExecuteNonQuery();
+
+                            if (rowAffected != 0)
                             {
-                                if (!PatientTreatmentDeseaseModel.SaveTreatmentDeseases(treatment, conn).IsSuccessful)
+                                if (patient.Treatments.IsNotNull())
                                 {
-                                    tr.Rollback();
-                                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                                    foreach (var treatment in patient.Treatments)
+                                    {
+                                        if (!PatientTreatmentDeseaseModel.SaveTreatmentDeseases(treatment, conn).IsSuccessful)
+                                        {
+                                            tr.Rollback();
+                                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                                        }
+                                    }
                                 }
+                                tr.Commit();
+                                return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveTreatment_Success };
+                            }
+                            else
+                            {
+                                tr.Rollback();
+                                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
                             }
                         }
-                        tr.Commit();
-                        return new Response { IsSuccessful = true, ResponseMessage = AppManagement.MSG_SaveTreatment_Success };
                     }
-                    else
+                    catch (Exception ex)
                     {
                         tr.Rollback();
-                        return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                tr.Rollback();
 
-                if (ex.ToString().Contains("PRIMARY"))
-                {
-                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Duplicate };
+                        if (ex.ToString().Contains("PRIMARY"))
+                        {
+                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Duplicate };
+                        }
+                        else
+                        {
+                            return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                        }
+                    }
                 }
                 else
                 {
-                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_MaxPatients };
                 }
             }
-
-
-
+            else
+            {
+                return new Response { IsSuccessful = false, ResponseMessage = patients.ResponseMessage };
+            }        
         }
     }
 }

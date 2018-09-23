@@ -106,6 +106,7 @@ namespace AITestBackend.Models
         public const string MSG_SaveAttachment_Success = "Registro insertado Exitosamente!";
         public const string MSG_SaveAttachment_FailureDefault = "Error en la ingreso del Antecedente";
         public const string MSG_SaveAttachment_Failure20 = "Tiene mas de 20 archivos para el mismo paciente, no se puede ingresar el registro";
+        public const string MSG_SaveTreatment_MaxPatients = "Ha excedido la cantidad máxima de pacientes(5)";
 
 
         #endregion
