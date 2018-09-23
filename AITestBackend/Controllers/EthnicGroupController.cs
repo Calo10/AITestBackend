@@ -12,7 +12,7 @@ namespace AITestBackend.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string Get()
+        public ResponseEthnicGroup Get()
         {
             ResponseEthnicGroup ans = null;
 
@@ -24,15 +24,15 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new ResponseEthnicGroup() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new ResponseEthnicGroup() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AITestBackend.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string GetAll(string parentId)
+        public ResponsePatients GetAll(string parentId)
         {
             ResponsePatients ans = null;
 
@@ -24,21 +24,21 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new ResponsePatients() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new ResponsePatients() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
 
         [HttpPost()]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string SavePatient([FromBody]PatientModel patientModel)
+        public Response SavePatient([FromBody]PatientModel patientModel)
         {
             Response ans = null;
 
@@ -53,21 +53,21 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
 
         [HttpGet()]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string Get(string identification)
+        public ResponsePatient Get(string identification)
         {
             ResponsePatient ans = null;
 
@@ -79,15 +79,15 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new ResponsePatient() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
     }
 }

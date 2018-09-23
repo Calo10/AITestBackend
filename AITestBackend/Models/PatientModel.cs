@@ -40,7 +40,6 @@ namespace AITestBackend.Models
 
                     while (rdr.Read())
                     {
-                        List<PatientTreatmentDeseaseModel> treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(rdr["id_patient"].ToString()).PatientTreatmentDeseases;
                         patients.Add(new PatientModel()
                         {
                             Identification = rdr["id_patient"].ToString(),
@@ -52,8 +51,7 @@ namespace AITestBackend.Models
                                 Id = Convert.ToInt32(rdr["id_ethnic_group"]),
                                 Name = rdr["ethnic_name"].ToString()
                             },
-                            Gender = rdr["gender"].ToString(),
-                            Treatments = treatments
+                            Gender = rdr["gender"].ToString()
                         });
                     }
 
@@ -78,7 +76,7 @@ namespace AITestBackend.Models
 
                 using (MySqlDataReader rdr = cmd.ExecuteReader())
                 {
-                    while (rdr.Read())
+                    if (rdr.Read())
                     {
                         patient = new PatientModel()
                         {
@@ -96,6 +94,12 @@ namespace AITestBackend.Models
                     }
                 }
             }
+
+            if (patient.IsNotNull())
+            {
+                patient.Treatments = PatientTreatmentDeseaseModel.GetAllTreatmentDeseasest(patient.Identification).PatientTreatmentDeseases;
+            }
+
             return new ResponsePatient { IsSuccessful = true, ResponseMessage = AppManagement.MSG_GetPatient_Success, Patient = patient };
         }
 

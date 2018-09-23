@@ -31,7 +31,7 @@ namespace AITestBackend.Controllers
         [HttpGet("[controller]/GetParent")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string GetParent(string identification)
+        public ResponseParent GetParent(string identification)
         {
 
             ResponseParent ans = null;
@@ -44,15 +44,15 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new ResponseParent() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new ResponseParent() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AITestBackend.Controllers
         [HttpPost("[controller]/RegisterParent")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string RegisterParent(string Parent)
+        public Response RegisterParent([FromBody]ParentModel parentModel)
         {
             Response ans = null;
 
@@ -83,20 +83,19 @@ namespace AITestBackend.Controllers
             {
                 if (ValidateSecurityAPI())
                 {
-                    ParentModel parentModel = JsonConvert.DeserializeObject<ParentModel>(Parent);
                     ans = ParentModel.RegisterParent(parentModel);
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
 
         #endregion
@@ -121,7 +120,7 @@ namespace AITestBackend.Controllers
         [HttpPost("[controller]/Login")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string Login(string Parent)
+        public Response Login(string Parent)
         {
 
             Response ans = null;
@@ -135,15 +134,15 @@ namespace AITestBackend.Controllers
                 }
                 else
                 {
-                    return AppManagement.MSG_API_Validation_Failure;
+                    ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_API_Validation_Failure };
                 }
             }
             catch (Exception ex)
             {
-                Error(ex.Message);
+                ans = new Response() { IsSuccessful = false, ResponseMessage = AppManagement.MSG_GenericExceptionError };
             }
 
-            return JsonConvert.SerializeObject(ans);
+            return ans;
         }
 
         #endregion
