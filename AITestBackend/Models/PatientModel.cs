@@ -158,11 +158,14 @@ namespace AITestBackend.Models
             {
                 tr.Rollback();
 
-                //if ()
-                //{
-
-                //}
-                return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                if (ex.ToString().Contains("PRIMARY"))
+                {
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Duplicate };
+                }
+                else
+                {
+                    return new Response { IsSuccessful = false, ResponseMessage = AppManagement.MSG_SaveTreatment_Failure };
+                }
             }
 
 
