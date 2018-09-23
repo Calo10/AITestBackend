@@ -13,6 +13,7 @@ namespace AITestBackend.Models
         public string FileName { get; set; }
         public string Content { get; set; }
         public string Extension { get; set; }
+        public string Description { get; set; }
 
         #region Attachaments
 
@@ -34,6 +35,7 @@ namespace AITestBackend.Models
                     cmd.Parameters.AddWithValue("@pfilename", attachments.FileName);
                     cmd.Parameters.AddWithValue("@pcontent", attachments.Content);
                     cmd.Parameters.AddWithValue("@pextension", attachments.Extension);
+                    cmd.Parameters.AddWithValue("@pdescription", attachments.Description);
 
 
                     MySqlParameter NroIdInvoice = new MySqlParameter("@result", idresult);
@@ -86,6 +88,7 @@ namespace AITestBackend.Models
                     attachment.FileName = rdr["file_name"].ToString();
                     attachment.Content = rdr["content"].ToString();
                     attachment.Extension = rdr["extension"].ToString();
+                    attachment.Description = rdr["description"].ToString();
 
                     attachments.Add(attachment);
                 }

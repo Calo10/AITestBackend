@@ -20,11 +20,11 @@ namespace AITestBackend.Models
 
 
         //IBM Chatbot
-        public const string WorkspaceID = "799aecc9-dcb3-41db-b85a-36043cf448b9";
+        public const string WorkspaceID = "ea6ea568-a6b3-47e6-a22b-372d5801c8c4";
         public const string WorkspaceURL = "https://gateway.watsonplatform.net/assistant/api/v1/workspaces/" + WorkspaceID + "/message/";
 
-        public const string UserName = "93ac3419-e3a6-4565-a6ee-6a086ba7d1a8";
-        public const string Password = "nYnCFtwdjuAs";
+        public const string UserName = "41db3a02-c26c-4d69-9907-00686bdd837e";
+        public const string Password = "8CQXYinm4Otu";
         public const string VersionDate = "2018-07-10";
 
         //Messages
